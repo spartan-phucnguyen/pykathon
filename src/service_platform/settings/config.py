@@ -63,7 +63,7 @@ class DBConfig(BaseModel):
 class RedisConfig(BaseModel):
     enabled: bool = False
     address: str
-    port: int = 6379
+    port: int = 30001
     username: str
     password: str
     base: int = 0
