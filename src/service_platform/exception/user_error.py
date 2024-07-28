@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from service_platform.exception.base_error import BaseError
-from service_platform.settings import settings
 
 
 class UserError(BaseError):

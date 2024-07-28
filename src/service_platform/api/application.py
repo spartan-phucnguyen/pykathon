@@ -2,25 +2,25 @@ import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.exceptions import RequestValidationError, HTTPException
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import ORJSONResponse
+from starlette.middleware.cors import CORSMiddleware
 from yarl import URL
 
 from service_platform.api.controller.router import api_router
 from service_platform.api.lifetime import (
-    register_startup_event,
     register_shutdown_event,
+    register_startup_event,
     register_worker,
 )
 from service_platform.core.exception_handler import (
-    request_validation_exception_handler,
     http_exception_handler,
+    request_validation_exception_handler,
     unicorn_exception_handler,
 )
 from service_platform.core.middleware.authentication import (
-    include_public_paths,
     AuthenticationMiddleware,
+    include_public_paths,
     include_refresh_token_paths,
 )
 from service_platform.service.postgres.lifetime import (

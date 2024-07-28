@@ -28,7 +28,9 @@ def get_yaml_config(environment: str) -> str:
 
         with open(_combined_yaml_config_path, "w") as f:
             yaml.dump(
-                merge_dicts(default_config, custom_config), f, default_flow_style=False
+                merge_dicts(default_config, custom_config),
+                f,
+                default_flow_style=False,
             )
         return _combined_yaml_config_path
     else:

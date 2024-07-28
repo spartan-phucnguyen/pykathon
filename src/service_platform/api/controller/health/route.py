@@ -10,8 +10,8 @@ router = APIRouter()
 @class_router(router)
 class HealthRouter:
     @staticmethod
-    @router.get("/")
     @public_endpoint
+    @router.get("/")
     async def health() -> MessageResponse:
         response = MessageResponse(message="OK")
         return response

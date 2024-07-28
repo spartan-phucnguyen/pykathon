@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 
 
 def convert_datetime_to_gmt(dt: datetime) -> str:

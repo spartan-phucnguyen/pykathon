@@ -1,4 +1,4 @@
-from uplink import get, Query, response_handler, returns, post, Field
+from uplink import Field, Query, get, post, response_handler, returns
 
 from service_platform.client.base_client import (
     BaseClient,
@@ -6,8 +6,8 @@ from service_platform.client.base_client import (
     raise_for_status,
 )
 from service_platform.client.response.auth.auth_response import (
-    OauthProviderUserResponse,
     OauthExchangeCodeResponse,
+    OauthProviderUserResponse,
 )
 from service_platform.settings import settings
 
@@ -20,7 +20,8 @@ class GoogleApiClient(BaseClient):
     @returns.json(OauthProviderUserResponse)
     @get("/oauth2/v3/userinfo")
     async def user_info(
-        self, access_token: Query("access_token")
+        self,
+        access_token: Query("access_token"),
     ) -> OauthProviderUserResponse:
         """Retrieves google user info by access_token"""
         pass

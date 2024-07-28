@@ -1,5 +1,5 @@
 import requests
-from uplink import get, response_handler, returns, Field, headers
+from uplink import Field, get, headers, response_handler, returns
 
 from service_platform.client.base_client import (
     BaseClient,

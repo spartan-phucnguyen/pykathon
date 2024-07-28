@@ -104,9 +104,9 @@ def _init_cbv(cls: Type[Any], instance: Any = None) -> None:
         else:
             old_init(self, *args, **kwargs)
 
-    setattr(cls, "__signature__", new_signature)
-    setattr(cls, "__init__", new_init)
-    setattr(cls, CBV_CLASS_KEY, True)
+    cls.__signature__ = new_signature
+    cls.__init__ = new_init
+    cls.CBV_CLASS_KEY = True
 
 
 def _register_endpoints(router: APIRouter, cls: Type[Any], *urls: str) -> None:
@@ -201,6 +201,6 @@ def _update_cbv_route_endpoint_signature(
         ]
 
         new_signature = old_signature.replace(parameters=new_parameters)
-        setattr(route.endpoint, "__signature__", new_signature)
+        route.endpoint.__signature__ = new_signature
     else:
-        setattr(route.endpoint, "__signature__", old_signature)
+        route.endpoint.__signature__ = old_signature

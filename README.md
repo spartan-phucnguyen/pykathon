@@ -1,5 +1,7 @@
 # service_platform
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 This is a template project for a python microservice using FastAPI framework.
 Python 3.12 recommended.
 
@@ -86,7 +88,7 @@ openssl rsa -in jwtRS512.key -pubout -outform PEM -out jwtRS512.key.pub
 Encode the key
 
 ```shell
-cat jwtRS512.key | base64 
+cat jwtRS512.key | base64
 cat jwtRS512.key.pub | base64
 ```
 
@@ -107,7 +109,7 @@ ollama pull mxbai-embed-large
 ```
 To avoid vector dimemsion mismatch, please delete old index in elastic search by using
 ```
-curl -X DELETE {open_search_endpoint}/{index_name} 
+curl -X DELETE {open_search_endpoint}/{index_name}
 ```
 Or just using new index to store vector database
 
@@ -135,10 +137,14 @@ flyway.cleanDisabled=false
 ```
 
 Flyway migrate
-`cd sql && flyway migrate && cd -`
+```shell
+cd sql && flyway migrate && cd -
+```
 
 Flyway clean & migrate:
-`cd sql && flyway clean migrate && cd -`
+```shell
+cd sql && flyway clean migrate && cd -
+```
 
 ## Poetry
 
@@ -156,11 +162,6 @@ If we have a problem with `openssl` is already installed
 export PYCURL_SSL_LIBRARY=openssl
 export LDFLAGS=-L/opt/homebrew/Cellar/openssl@3/3.3.0/lib
 export CPPFLAGS=-I/opt/homebrew/Cellar/openssl@3/3.3.0/include
-```
-
-Install the dependencies
-```shell
-poetry install
 ```
 
 Start the application

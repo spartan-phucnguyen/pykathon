@@ -20,7 +20,10 @@ class RefreshTokenRepository(BaseRepository[RefreshTokenEntity]):
         return await self.get_first([self.entity.id == user_id])
 
     async def find_first(
-        self, user_id: uuid.UUID, jti: uuid.UUID, raise_error_if_not_found: bool = False
+        self,
+        user_id: uuid.UUID,
+        jti: uuid.UUID,
+        raise_error_if_not_found: bool = False,
     ) -> Optional[RefreshTokenEntity]:
         return await self.get_first(
             conditions=[

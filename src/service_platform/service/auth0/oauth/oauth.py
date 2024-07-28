@@ -1,9 +1,9 @@
 from service_platform.client.auth0.client import Auth0Client
 from service_platform.client.response.auth.auth_response import (
-    OauthUserResponse,
     OauthExchangeCodeResponse,
+    OauthUserResponse,
 )
-from service_platform.settings import settings, logger
+from service_platform.settings import logger, settings
 
 
 class Auth0OAuthService:
@@ -23,7 +23,8 @@ class Auth0OAuthService:
         )
 
     async def exchange_code_for_token(
-        self, code: str
+        self,
+        code: str,
     ) -> OauthExchangeCodeResponse | None:
         try:
             data = {

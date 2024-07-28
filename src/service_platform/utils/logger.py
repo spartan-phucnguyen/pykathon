@@ -53,7 +53,7 @@ def get_log_config():
             "heath_check": {
                 "()": HealthCheckFilter,
                 "health_check_endpoint": "/api/health/",
-            }
+            },
         },
         "formatters": {
             "default": {

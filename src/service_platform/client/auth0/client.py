@@ -1,4 +1,4 @@
-from uplink import get, Query, response_handler, returns, Field, post
+from uplink import Field, Query, get, post, response_handler, returns
 
 from service_platform.client.base_client import (
     BaseClient,
@@ -32,6 +32,7 @@ class Auth0Client(BaseClient):
     @returns.json(OauthProviderUserResponse)
     @get("/userinfo")
     async def user_info(
-        self, access_token: Query("access_token")
+        self,
+        access_token: Query("access_token"),
     ) -> OauthProviderUserResponse:
         pass

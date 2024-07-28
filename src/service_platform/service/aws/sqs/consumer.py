@@ -70,7 +70,7 @@ class SQSConsumer:
                     await self.message_queue.put(message)
             except (BotoCoreError, ClientError) as e:
                 logger.warning(
-                    f"SQS Failed to poll from queue={self.queue_url} due to={e}"
+                    f"SQS Failed to poll from queue={self.queue_url} due to={e}",
                 )
 
     async def _launch_worker(self):
@@ -81,7 +81,7 @@ class SQSConsumer:
                 await self.delete(message)
             except Exception as e:
                 logger.warning(
-                    f"SQS Failed to process message={message['Body']} due to={e}"
+                    f"SQS Failed to process message={message['Body']} due to={e}",
                 )
                 await self.change_visibility(message)
 

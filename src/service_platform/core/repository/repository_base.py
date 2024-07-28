@@ -3,9 +3,9 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Generic, List, Optional, Type, TypeVar
 
-from fastapi import HTTPException, Depends
+from fastapi import Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import func, select, null, update
+from sqlalchemy import func, null, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -82,7 +82,10 @@ class BaseRepository(Generic[EntityType]):
             )
 
     async def update(
-        self, obj_in: SchemaType | dict, obj_id: Any, allow_nulls: List[str] = None
+        self,
+        obj_in: SchemaType | dict,
+        obj_id: Any,
+        allow_nulls: List[str] = None,
     ):
         try:
             if allow_nulls is None:
@@ -107,7 +110,7 @@ class BaseRepository(Generic[EntityType]):
                     .where(self.entity.id == obj_id)
                     .values(**update_values)
                     .execution_options(synchronize_session="fetch")
-                )
+                ),
             )
             await self.database.commit()
         except IntegrityError as e:

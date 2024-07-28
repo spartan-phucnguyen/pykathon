@@ -20,7 +20,10 @@ class S3:
         self.string_helper = StringUtils()
 
     async def upload(
-        self, file: UploadFile, user_id: uuid.UUID, key: str | None = None
+        self,
+        file: UploadFile,
+        user_id: uuid.UUID,
+        key: str | None = None,
     ) -> str:
         try:
             if key is None:
@@ -38,8 +41,8 @@ class S3:
         except Exception as e:
             logger.error(e)
             raise ServerError.INTERNAL_SERVER_ERROR.as_http_exception(
-                custom_message="Failed to upload s3 file"
-            )
+                custom_message="Failed to upload s3 file",
+            ) from e
 
     async def delete(self, key: str) -> None:
         try:
@@ -47,8 +50,8 @@ class S3:
         except Exception as e:
             logger.error(e)
             raise ServerError.INTERNAL_SERVER_ERROR.as_http_exception(
-                custom_message="Failed to delete s3 file"
-            )
+                custom_message="Failed to delete s3 file",
+            ) from e
 
     async def move(self, old_key: str, new_key: str) -> None:
         try:
@@ -61,8 +64,8 @@ class S3:
         except Exception as e:
             logger.error(e)
             raise ServerError.INTERNAL_SERVER_ERROR.as_http_exception(
-                custom_message="Failed to delete s3 file"
-            )
+                custom_message="Failed to delete s3 file",
+            ) from e
 
     async def download(self, key: str, file_name: str, folder: str) -> str:
         try:

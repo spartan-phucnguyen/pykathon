@@ -1,7 +1,8 @@
 from service_platform.settings import settings
+
+from .. import aws_credentials_dummy
 from .consumer import SQSConsumer
 from .producer import SQSJobProducer
-from .. import aws_credentials_dummy
 
 if settings.aws.sqs.localstack is True:
     endpoint_url = settings.aws.endpoint_url

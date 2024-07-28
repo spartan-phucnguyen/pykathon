@@ -27,7 +27,8 @@ class BaseError:
 
     def as_http_exception(self, custom_message=None):
         return HTTPException(
-            status_code=self.status.value, detail=self.build_message(custom_message)
+            status_code=self.status.value,
+            detail=self.build_message(custom_message),
         )
 
     def build_message(self, message=None):

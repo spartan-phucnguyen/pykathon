@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 
 from service_platform.api.controller.schema import MessageResponse
 from service_platform.api.manager.auth.manager import AuthManager
@@ -11,8 +11,8 @@ from service_platform.client.request.auth.auth_request import (
 from service_platform.client.response.auth.auth_response import LoginResponse
 from service_platform.core.class_router import class_router
 from service_platform.core.middleware.authentication import (
-    public_endpoint,
     get_token_data,
+    public_endpoint,
     refresh_token_endpoint,
 )
 from service_platform.core.security.model import TokenData
@@ -28,17 +28,21 @@ class AuthRouter:
     @router.get("/login/{provider}")
     @public_endpoint
     async def get_provider_redirect_url(
-        self, provider: AuthProvider
+        self,
+        provider: AuthProvider,
     ) -> MessageResponse:
         return await self.manager.get_provider_redirect_url(provider=provider)
 
     @router.post("/login/{provider}")
     @public_endpoint
     async def provider_authorize_login(
-        self, payload: ProviderLoginRequest, provider: AuthProvider
+        self,
+        payload: ProviderLoginRequest,
+        provider: AuthProvider,
     ) -> LoginResponse:
         return await self.manager.provider_authorize_login(
-            payload=payload, provider=provider
+            payload=payload,
+            provider=provider,
         )
 
     @router.post("/refresh-token")
@@ -48,7 +52,8 @@ class AuthRouter:
         token_data: Annotated[TokenData, Depends(get_token_data)],
     ) -> LoginResponse:
         return await self.manager.refresh_access_token(
-            user_id=token_data.user_id, jti=token_data.jti
+            user_id=token_data.user_id,
+            jti=token_data.jti,
         )
 
     @router.post("/logout")

@@ -20,7 +20,9 @@ class JWTTokenGenerator(TokenGenerator):
         self.refresh_expiration_time = settings.jwt.refresh_expiration_time
 
     def generate_token(
-        self, authentication: CustomAuthentication, generate_refresh_token: bool = True
+        self,
+        authentication: CustomAuthentication,
+        generate_refresh_token: bool = True,
     ) -> JWTToken:
         access_token = jwt.encode(
             self.claim_generator.generate_claims(

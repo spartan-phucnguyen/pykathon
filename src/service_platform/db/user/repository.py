@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 
 from sqlalchemy import and_
 
@@ -32,7 +32,7 @@ class UserRepository(BaseRepository[UserEntity]):
                 picture_url=picture_url,
                 auth_id=auth_id,
                 auth_provider=auth_provider.value,
-            )
+            ),
         )
 
     async def find_by_auth_id_and_auth_provider(
@@ -51,7 +51,8 @@ class UserRepository(BaseRepository[UserEntity]):
         user_id: uuid.UUID,
     ) -> UserEntity:
         return await self.update(
-            LoginUserRequest(logged_in_at=datetime.now(UTC)), user_id
+            LoginUserRequest(logged_in_at=datetime.now(UTC)),
+            user_id,
         )
 
     async def find_first(

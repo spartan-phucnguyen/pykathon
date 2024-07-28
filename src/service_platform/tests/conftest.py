@@ -1,11 +1,8 @@
-import asyncio
-from io import BytesIO
 from typing import Any, AsyncGenerator
-from unittest.mock import patch
 
 import pytest
 from faker import Faker
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -116,12 +113,6 @@ async def client(
     api: FastAPI,
     anyio_backend: Any,
 ) -> AsyncGenerator[AsyncClient, None]:
-    """
-    Fixture that creates client for requesting server.
-
-    :param fastapi_app: the application.
-    :yield: client for the app.
-    """
     async with AsyncClient(app=api, base_url="http://test") as ac:
         yield ac
 
@@ -229,10 +220,12 @@ async def refresh_token(
     """
 
     refresh_token = await refresh_token_repository.create(
-        RefreshTokenRequest(user_id=test_user.id)
+        RefreshTokenRequest(user_id=test_user.id),
     )
     authentication = CustomAuthentication(
-        user_id=str(test_user.id), roles=[test_user.roles], jti=str(refresh_token.id)
+        user_id=str(test_user.id),
+        roles=[test_user.roles],
+        jti=str(refresh_token.id),
     )
     jwt_token = token_generator.generate_token(authentication)
     return jwt_token.refresh_token
@@ -240,7 +233,8 @@ async def refresh_token(
 
 @pytest.fixture
 async def authenticated_client_with_refresh_token(
-    client: AsyncClient, refresh_token: str
+    client: AsyncClient,
+    refresh_token: str,
 ) -> AsyncClient:
     """
     Fixture to create an authenticated client with both access and refresh tokens.

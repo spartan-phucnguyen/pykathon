@@ -1,7 +1,7 @@
 import re
-from typing import Callable, Coroutine, Any, Annotated, Set
+from typing import Annotated, Any, Callable, Coroutine, Set
 
-from fastapi import HTTPException, APIRouter, Depends, FastAPI
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
@@ -18,7 +18,8 @@ BEARER_SCHEME = HTTPBearer()
 
 
 def get_token_data(
-    request: Request, _: Annotated[HTTPAuthorizationCredentials, Depends(BEARER_SCHEME)]
+    request: Request,
+    _: Annotated[HTTPAuthorizationCredentials, Depends(BEARER_SCHEME)],
 ) -> TokenData:
     token_data = getattr(request.state, "token_data", None)
 
@@ -44,7 +45,7 @@ def include_public_paths(router: APIRouter, public_paths: set[URL]):
     for route in router.routes:
         if getattr(route.endpoint, "is_public", False):
             public_paths.add(
-                URL(route.path[:-1] if route.path.endswith("/") else route.path)
+                URL(route.path[:-1] if route.path.endswith("/") else route.path),
             )
 
 
@@ -57,7 +58,7 @@ def include_refresh_token_paths(router: APIRouter, refresh_token_paths: Set[URL]
     for route in router.routes:
         if getattr(route.endpoint, "is_refresh", False):
             refresh_token_paths.add(
-                URL(route.path[:-1] if route.path.endswith("/") else route.path)
+                URL(route.path[:-1] if route.path.endswith("/") else route.path),
             )
 
 
@@ -112,7 +113,8 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
                 normalized_path = normalized_path[:-1]
 
             if is_public_path(
-                normalized_path=normalized_path, public_paths=self.public_paths
+                normalized_path=normalized_path,
+                public_paths=self.public_paths,
             ):
                 return await call_next(request)
             try:
@@ -127,7 +129,8 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
                             token_type = TokenType.refresh_token
 
                         token_data = await self.token_validator.validate(
-                            token, token_type
+                            token,
+                            token_type,
                         )
                         if not token_data:
                             return error_response("Unauthorized", 401)

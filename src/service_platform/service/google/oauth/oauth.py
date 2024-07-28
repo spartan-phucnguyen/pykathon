@@ -1,9 +1,9 @@
 from typing import List
 
-from service_platform.client.google.client import GoogleApiClient, GoogleAccountClient
+from service_platform.client.google.client import GoogleAccountClient, GoogleApiClient
 from service_platform.client.response.auth.auth_response import (
-    OauthUserResponse,
     OauthExchangeCodeResponse,
+    OauthUserResponse,
 )
 from service_platform.settings import logger, settings
 
@@ -35,7 +35,8 @@ class GoogleOAuthService:
         )
 
     async def exchange_code_for_token(
-        self, code: str
+        self,
+        code: str,
     ) -> OauthExchangeCodeResponse | None:
         try:
             data = {

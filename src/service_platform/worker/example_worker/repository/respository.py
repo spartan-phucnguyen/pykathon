@@ -1,6 +1,3 @@
-import uuid
-from datetime import datetime, UTC
-
 from service_platform.service.postgres.lifetime import init_postgres_worker
 from service_platform.settings import logger
 

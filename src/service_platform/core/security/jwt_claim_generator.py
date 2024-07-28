@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime, UTC
+from datetime import UTC, datetime, timedelta
 
 from fastapi import Depends
 
@@ -28,7 +28,7 @@ class JWTClaimGenerator(ClaimGenerator):
         }
         if expires_in != -1:
             expires_in = datetime.now(UTC) + timedelta(
-                seconds=expires_in or self.registered_claim.expiration_time
+                seconds=expires_in or self.registered_claim.expiration_time,
             )
             claims["exp"] = expires_in
 

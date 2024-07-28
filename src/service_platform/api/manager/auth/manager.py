@@ -52,7 +52,7 @@ class AuthManager:
         auth = getattr(self, f"{provider.value.lower()}_auth", None)
         if auth is None:
             raise AuthError.UNSUPPORTED_PROVIDER.as_http_exception(
-                custom_message=f"Unsupported provider: {provider.value}"
+                custom_message=f"Unsupported provider: {provider.value}",
             )
         return auth
 
@@ -87,11 +87,13 @@ class AuthManager:
         else:
             await self.user_repository.update_user(user.id)
         refresh_token = await self.refresh_token_repository.create(
-            RefreshTokenRequest(user_id=user.id)
+            RefreshTokenRequest(user_id=user.id),
         )
 
         authentication = CustomAuthentication(
-            user_id=str(user.id), roles=[user.roles], jti=str(refresh_token.id)
+            user_id=str(user.id),
+            roles=[user.roles],
+            jti=str(refresh_token.id),
         )
 
         jwt_token = self.token_generator.generate_token(authentication)
@@ -129,7 +131,9 @@ class AuthManager:
             raise AuthError.INVALID_CREDENTIALS.as_http_exception()
 
     async def refresh_access_token(
-        self, user_id: uuid.UUID, jti: uuid.UUID
+        self,
+        user_id: uuid.UUID,
+        jti: uuid.UUID,
     ) -> LoginResponse:
         user = await self.user_repository.find_first(user_id)
         if user is None:
@@ -141,13 +145,15 @@ class AuthManager:
             jti=str(jti),
         )
         refresh_token = await self.refresh_token_repository.find_first(
-            user_id=user.id, jti=jti
+            user_id=user.id,
+            jti=jti,
         )
         if refresh_token is None:
             raise AuthError.INVALID_REFRESH_TOKEN.as_http_exception()
 
         jwt_token = self.token_generator.generate_token(
-            authentication, generate_refresh_token=False
+            authentication,
+            generate_refresh_token=False,
         )
 
         return self.auth_response_converter.to_login_response(

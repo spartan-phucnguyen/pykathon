@@ -1,6 +1,5 @@
 import logging
 import os
-import tempfile
 
 from pydantic_settings import SettingsConfigDict
 from pydantic_settings_yaml import YamlBaseSettings
@@ -8,15 +7,15 @@ from pydantic_settings_yaml.base_settings import YamlConfigSettingsSource
 from yarl import URL
 
 from service_platform.settings import (
-    ServerConfig,
+    Auth0Config,
+    AWSConfig,
     DBConfig,
-    RedisConfig,
     GoogleConfig,
     JWTConfig,
-    AWSConfig,
     LinkedinConfig,
+    RedisConfig,
+    ServerConfig,
     ZoomConfig,
-    Auth0Config,
 )
 from service_platform.utils.file_utils import get_yaml_config
 

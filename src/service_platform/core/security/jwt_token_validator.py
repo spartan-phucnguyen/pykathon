@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from service_platform.core.middleware.model import TokenType
 from service_platform.core.security.model import TokenData
 from service_platform.core.security.token_validator import TokenValidator
-from service_platform.settings import settings, logger
+from service_platform.settings import logger, settings
 
 
 class JwtTokenValidator(TokenValidator):
@@ -46,4 +46,4 @@ class JwtTokenValidator(TokenValidator):
                 status_code=401,
                 detail="Token is invalid or has expired",
                 headers={"WWW-Authenticate": "Bearer"},
-            )
+            ) from e

@@ -2,13 +2,13 @@ from asyncio import current_task
 
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import (
+    AsyncSession,
     async_scoped_session,
     async_sessionmaker,
     create_async_engine,
-    AsyncSession,
 )
 
-from service_platform.settings import settings, logger
+from service_platform.settings import logger, settings
 
 
 def init_postgres(app: FastAPI) -> None:  # pragma: no cover
