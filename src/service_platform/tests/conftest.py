@@ -253,7 +253,9 @@ async def s3() -> S3:
 
 @pytest.fixture
 async def sqs_example_worker_producer() -> SQSJobProducer:
-    return SQSJobProducer(queue_url=settings.aws.sqs.example_worker.url + "-test")
+    return SQSJobProducer(
+        queue_url=settings.aws.sqs.workers.example_worker.url + "-test",
+    )
 
 
 @pytest.fixture
@@ -263,6 +265,6 @@ async def sqs_consumer(
     example_worker_processor = ExampleWorkerProcessor()
     example_worker_processor.repository = example_worker_repository
     return SQSConsumer(
-        queue_url=settings.aws.sqs.example_worker.url + "-test",
+        queue_url=settings.aws.sqs.workers.example_worker.url + "-test",
         processors=[example_worker_processor],
     )
