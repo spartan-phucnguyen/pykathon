@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import UUID, Column, String, func, Table, MetaData, DateTime
+from sqlalchemy import UUID, Column, DateTime, MetaData, String, Table, func
 from sqlalchemy.orm import Mapped
 
 from service_platform.db.base_table import BaseTable

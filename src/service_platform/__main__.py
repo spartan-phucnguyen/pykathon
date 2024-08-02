@@ -1,9 +1,7 @@
 import uuid
-from typing import Any
 
 import nest_asyncio  # type: ignore
-import uvicorn
-from sqlalchemy import insert, select
+from sqlalchemy import insert
 
 from service_platform.db.user.table import UserTable
 

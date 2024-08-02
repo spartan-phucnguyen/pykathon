@@ -30,7 +30,7 @@ class Settings(YamlBaseSettings):
     _environment = str(
         os.environ.get("ENVIRONMENT")
         if os.environ.get("ENVIRONMENT") is not None
-        else "local"
+        else "local",
     )
 
     model_config = SettingsConfigDict(
