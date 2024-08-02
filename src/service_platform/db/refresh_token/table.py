@@ -1,15 +1,22 @@
-from sqlalchemy import UUID, Column, func
+from sqlalchemy import UUID, Column, Table, MetaData, TIMESTAMP
+from sqlalchemy.orm import Mapped
 
 from service_platform.db.base_table import BaseTable
 
+table_name = "refresh_tokens"
+
+RefreshTokenTable = Table(
+    table_name,
+    MetaData(),
+    Column("id", UUID, primary_key=True),
+    Column("user_id", UUID),
+    Column("created_at", TIMESTAMP),
+    Column("updated_at", TIMESTAMP),
+    Column("deleted_at", TIMESTAMP),
+)
+
 
 class RefreshTokenEntity(BaseTable):
-    __tablename__ = "refresh_tokens"
+    __tablename__ = table_name
 
-    id = Column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        server_default=func.uuid_generate_v4(),
-    )
-
-    user_id = Column(UUID(as_uuid=True), nullable=False)
+    user_id: Mapped[UUID]

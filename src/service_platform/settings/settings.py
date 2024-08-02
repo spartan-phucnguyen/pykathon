@@ -1,9 +1,8 @@
 import logging
 import os
 
-from pydantic_settings import SettingsConfigDict
-from pydantic_settings_yaml import YamlBaseSettings
-from pydantic_settings_yaml.base_settings import YamlConfigSettingsSource
+from pydantic_settings import SettingsConfigDict, YamlConfigSettingsSource
+from pydantic_settings_yaml import YamlBaseSettings  # type: ignore
 from yarl import URL
 
 from service_platform.settings import (
@@ -28,7 +27,11 @@ class Settings(YamlBaseSettings):
     with yaml config.
     """
 
-    _environment = os.environ.get("ENVIRONMENT")
+    _environment = str(
+        os.environ.get("ENVIRONMENT")
+        if os.environ.get("ENVIRONMENT") is not None
+        else "local"
+    )
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
