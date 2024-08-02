@@ -40,7 +40,7 @@ class Environment(str, Enum):
 
 class ServerConfig(BaseModel):
     address: str = "0.0.0.0"
-    port: int | None = 8080
+    port: int = 8080
     allowed_origin: str = ""
     reload: bool = False
     workers_count: int = 1

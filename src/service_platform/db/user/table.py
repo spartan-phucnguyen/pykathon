@@ -1,21 +1,34 @@
-from sqlalchemy import UUID, Column, String, Text, func
-from sqlalchemy.dialects.postgresql import TIMESTAMP
+from datetime import datetime
+
+from sqlalchemy import UUID, Column, String, func, Table, MetaData, DateTime
+from sqlalchemy.orm import Mapped
 
 from service_platform.db.base_table import BaseTable
+
+UserTable = Table(
+    "users",
+    MetaData(),
+    Column("id", UUID, primary_key=True),
+    Column("email", String),
+    Column("name", String),
+    Column("picture_url", String),
+    Column("logged_in_at", DateTime(timezone=True), server_default=func.now()),
+    Column("roles", String),
+    Column("auth_id", String),
+    Column("auth_provider", String),
+    Column("created_at", DateTime),
+    Column("updated_at", DateTime),
+    Column("deleted_at", DateTime),
+)
 
 
 class UserEntity(BaseTable):
     __tablename__ = "users"
 
-    id = Column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        server_default=func.uuid_generate_v4(),
-    )
-    email = Column(Text, nullable=False)
-    name = Column(Text)
-    picture_url = Column(Text)
-    logged_in_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
-    roles: str = Column(String, nullable=True)
-    auth_id: str = Column(String, nullable=True)
-    auth_provider: str = Column(String, nullable=False)
+    email: Mapped[str]
+    name: Mapped[str]
+    picture_url: Mapped[str]
+    logged_in_at: Mapped[datetime]
+    roles: Mapped[str]
+    auth_id: Mapped[str]
+    auth_provider: Mapped[str]
