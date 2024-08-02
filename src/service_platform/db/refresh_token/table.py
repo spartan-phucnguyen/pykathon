@@ -1,4 +1,4 @@
-from sqlalchemy import UUID, Column, Table, MetaData, TIMESTAMP
+from sqlalchemy import TIMESTAMP, UUID, Column, MetaData, Table
 from sqlalchemy.orm import Mapped
 
 from service_platform.db.base_table import BaseTable
