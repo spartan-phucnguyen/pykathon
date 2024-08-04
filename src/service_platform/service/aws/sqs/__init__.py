@@ -1,4 +1,4 @@
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 from .. import aws_credentials_dummy
 from .consumer import SQSConsumer

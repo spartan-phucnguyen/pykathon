@@ -2,7 +2,8 @@ import pytest
 from faker import Faker
 from fastapi import FastAPI
 from httpx import AsyncClient
-from service_platform.tests.conftest import DEFAULT_USER_EMAIL
+
+from service_platform.api.tests.conftest import DEFAULT_USER_EMAIL
 
 fake = Faker()
 

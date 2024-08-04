@@ -1,8 +1,11 @@
+from typing import Optional
+
+
 class JWTToken:
     def __init__(
         self,
         access_token: str,
-        refresh_token: str = None,
+        refresh_token: Optional[str] = None,
         expires_in: int = 1440,
         token_type: str = "Bearer",
     ):

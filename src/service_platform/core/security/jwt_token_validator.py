@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from service_platform.core.middleware.model import TokenType
 from service_platform.core.security.model import TokenData
 from service_platform.core.security.token_validator import TokenValidator
-from service_platform.settings import logger, settings
+from service_platform.runtime.settings import logger, settings
 
 
 class JwtTokenValidator(TokenValidator):

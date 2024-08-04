@@ -5,7 +5,7 @@ from pydantic_settings import SettingsConfigDict, YamlConfigSettingsSource
 from pydantic_settings_yaml import YamlBaseSettings  # type: ignore
 from yarl import URL
 
-from service_platform.settings import (
+from service_platform.runtime.settings import (
     Auth0Config,
     AWSConfig,
     DBConfig,
@@ -28,9 +28,11 @@ class Settings(YamlBaseSettings):
     """
 
     _environment = str(
-        os.environ.get("ENVIRONMENT")
-        if os.environ.get("ENVIRONMENT") is not None
-        else "local",
+        (
+            os.environ.get("ENVIRONMENT")
+            if os.environ.get("ENVIRONMENT") is not None
+            else "local"
+        ),
     )
 
     model_config = SettingsConfigDict(

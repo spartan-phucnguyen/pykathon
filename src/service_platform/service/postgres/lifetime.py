@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from service_platform.settings import logger, settings
+from service_platform.runtime.settings import logger, settings
 
 
 def init_postgres(app: FastAPI) -> None:  # pragma: no cover

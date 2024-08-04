@@ -1,5 +1,7 @@
+# type: ignore
 import re
-from typing import Annotated, Any, Callable, Coroutine, Set
+from re import Pattern
+from typing import Annotated, Any, Callable, Coroutine, Optional, Set
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -12,7 +14,7 @@ from service_platform.core.middleware.model import TokenType
 from service_platform.core.security.jwt_token_validator import JwtTokenValidator
 from service_platform.core.security.model import TokenData
 from service_platform.db.refresh_token.repository import RefreshTokenRepository
-from service_platform.settings import logger
+from service_platform.runtime.settings import logger
 
 BEARER_SCHEME = HTTPBearer()
 
@@ -36,7 +38,7 @@ def error_response(error_msg: str, status_code: int) -> JSONResponse:
     )
 
 
-def public_endpoint(func: Callable):
+def public_endpoint(func: Callable) -> Callable:
     func.is_public = True
     return func
 
@@ -49,7 +51,7 @@ def include_public_paths(router: APIRouter, public_paths: set[URL]):
             )
 
 
-def refresh_token_endpoint(func: Callable):
+def refresh_token_endpoint(func: Callable) -> Callable:
     func.is_refresh = True
     return func
 
@@ -70,7 +72,7 @@ def is_public_path(normalized_path: str, public_paths: Set[URL]) -> bool:
     return False
 
 
-def convert_to_regex(url: URL):
+def convert_to_regex(url: URL) -> Pattern[str]:
     decoded_path = url.path
     # Convert %7B and %7D to {}
     decoded_path = decoded_path.replace("%7B", "{").replace("%7D", "}")
@@ -88,7 +90,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         self,
         app: FastAPI,
         public_paths: set[URL],
-        refresh_token_paths: set[URL] = None,
+        refresh_token_paths: Optional[set[URL]] = None,
         token_validator: JwtTokenValidator = JwtTokenValidator(),
         refresh_token_repository: RefreshTokenRepository = Depends(),
         **kwargs,

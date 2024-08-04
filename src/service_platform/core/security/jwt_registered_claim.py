@@ -1,4 +1,4 @@
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 
 class JWTRegisteredClaim:

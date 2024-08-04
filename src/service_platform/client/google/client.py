@@ -9,7 +9,7 @@ from service_platform.client.response.auth.auth_response import (
     OauthExchangeCodeResponse,
     OauthProviderUserResponse,
 )
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 
 @response_handler(raise_for_status)  # Raise service_platform exception

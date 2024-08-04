@@ -1,8 +1,10 @@
+# type: ignore
 import inspect
 from typing import (
     Any,
     Callable,
     List,
+    Optional,
     Tuple,
     Type,
     TypeVar,
@@ -31,11 +33,13 @@ RETURN_TYPES_FUNC_KEY = "__return_types_func__"
 
 def class_router(router: APIRouter, *urls: str) -> Callable[[Type[T]], Type[T]]:
     """
-    This function returns a decorator that converts the decorated into a class-based view for the provided router.
+    This function returns a decorator that converts the decorated into a class-based
+    view for the provided router.
 
-    Any methods of the decorated class that are decorated as endpoints using the router provided to this function
-    will become endpoints in the router. The first positional argument to the methods (typically `self`)
-    will be populated with an instance created using FastAPI's dependency-injection.
+    Any methods of the decorated class that are decorated as endpoints using the
+    router provided to this function will become endpoints in the router. The first
+    positional argument to the methods (typically `self`) will be populated with an
+    instance created using FastAPI's dependency-injection.
 
     """
 
@@ -46,21 +50,24 @@ def class_router(router: APIRouter, *urls: str) -> Callable[[Type[T]], Type[T]]:
     return decorator
 
 
-def _cbv(router: APIRouter, cls: Type[T], *urls: str, instance: Any = None) -> Type[T]:
+def _cbv(
+    router: APIRouter, cls: Type[T], *urls: str, instance: Optional[Any] = None
+) -> Type[T]:
     """
-    Replaces any methods of the provided class `cls` that are endpoints of routes in `router` with updated
-    function calls that will properly inject an instance of `cls`.
+    Replaces any methods of the provided class `cls` that are endpoints of routes in
+    `router` with updated function calls that will properly inject an instance of `cls`.
     """
     _init_cbv(cls, instance)
     _register_endpoints(router, cls, *urls)
     return cls
 
 
-def _init_cbv(cls: Type[Any], instance: Any = None) -> None:
+def _init_cbv(cls: Type[Any], instance: Optional[Any] = None) -> None:
     """
     Idempotently modifies the provided `cls`, performing the following modifications:
-    * The `__init__` function is updated to set any class-annotated dependencies as instance attributes
-    * The `__signature__` attribute is updated to indicate to FastAPI what arguments should be passed to the initializer
+    * The `__init__` function is updated to set any class-annotated dependencies as
+    instance attributes * The `__signature__` attribute is updated to indicate to
+    FastAPI what arguments should be passed to the initializer
     """
     if getattr(cls, CBV_CLASS_KEY, False):  # pragma: no cover
         return  # Already initialized
@@ -186,7 +193,8 @@ def _update_cbv_route_endpoint_signature(
     route: Union[Route, WebSocketRoute],
 ) -> None:
     """
-    Fixes the endpoint signature for a cbv route to ensure FastAPI performs dependency injection properly.
+    Fixes the endpoint signature for a cbv route to ensure FastAPI performs
+    dependency injection properly.
     """
     old_endpoint = route.endpoint
     old_signature = inspect.signature(old_endpoint)

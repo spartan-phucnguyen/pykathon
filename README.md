@@ -36,7 +36,7 @@ Python 3.12 recommended.
         │   └── prod
         ├── service
         │   └── service_1
-        ├── sql
+        ├── __sql__
         ├── tests
         └── worker
             └── worker_1
@@ -136,12 +136,12 @@ flyway.cleanDisabled=false
 
 Flyway migrate
 ```shell
-cd sql && flyway migrate && cd -
+cd __sql__ && flyway migrate && cd -
 ```
 
 Flyway clean & migrate:
 ```shell
-cd sql && flyway clean migrate && cd -
+cd __sql__ && flyway clean migrate && cd -
 ```
 
 ## Poetry

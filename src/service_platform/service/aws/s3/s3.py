@@ -4,9 +4,9 @@ import uuid
 import boto3
 from fastapi import UploadFile
 
-from service_platform.exception.server_error import ServerError
+from service_platform.api.exception.server_error import ServerError
+from service_platform.runtime.settings import logger, settings
 from service_platform.service.aws import aws_credentials_dummy
-from service_platform.settings import logger, settings
 from service_platform.utils.string_utils import StringUtils
 
 

@@ -3,7 +3,7 @@ from service_platform.client.response.auth.auth_response import (
     OauthUserResponse,
 )
 from service_platform.client.zoom.client import ZoomApiClient, ZoomClient
-from service_platform.settings import logger, settings
+from service_platform.runtime.settings import logger, settings
 
 
 class ZoomOAuthService:

@@ -8,7 +8,7 @@ from service_platform.client.response.auth.auth_response import (
     OauthExchangeCodeResponse,
     OauthUserResponse,
 )
-from service_platform.settings import logger, settings
+from service_platform.runtime.settings import logger, settings
 
 
 class LinkedinOAuthService:

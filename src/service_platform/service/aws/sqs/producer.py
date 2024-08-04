@@ -3,8 +3,8 @@ import json
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
+from service_platform.runtime.settings import logger, settings
 from service_platform.service.aws import aws_credentials_dummy
-from service_platform.settings import logger, settings
 
 
 class SQSJobProducer:

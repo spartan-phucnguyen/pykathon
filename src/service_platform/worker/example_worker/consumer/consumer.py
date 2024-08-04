@@ -1,7 +1,7 @@
 import asyncio
 
+from service_platform.runtime.settings import settings
 from service_platform.service.aws.sqs import SQSConsumer
-from service_platform.settings import settings
 from service_platform.worker.example_worker.processor import ExampleWorkerProcessor
 
 

@@ -1,4 +1,4 @@
-from service_platform.settings import logger
+from service_platform.runtime.settings import logger
 from service_platform.worker.example_worker.processor.schema import ExampleWorkerPayload
 from service_platform.worker.example_worker.repository.respository import (
     ExampleWorkerRepository,
