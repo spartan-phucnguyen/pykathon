@@ -345,3 +345,12 @@ Install the necessary certificates for Python to verify SSL connections:
 ```bash
 bash /Applications/Python*/Install\ Certificates.command
 ```
+
+### COMMAND:
+```bash
+chmod +x fastapi
+
+Repository: ./fastapi create_repository --name=entity
+Controller: ./fastapi create_controller --name=entity
+```
+
