@@ -2,7 +2,8 @@ import json
 import logging
 
 from fastapi import HTTPException
-from service_platform.exception.base_error import ClientException
+
+from service_platform.api.exception.base_error import ClientException
 
 
 class ErrorResponse:

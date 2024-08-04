@@ -1,7 +1,7 @@
 import logging.config
 from typing import Any
 
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 
 class HealthCheckFilter(logging.Filter):

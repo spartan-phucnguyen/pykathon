@@ -1,4 +1,4 @@
-from typing import Any, List, Union
+from typing import Any, List, Optional, Union
 
 from fastapi.responses import ORJSONResponse
 
@@ -32,7 +32,7 @@ class AppResponse(ORJSONResponse):
 
     def __init__(
         self,
-        content: Union[AppResponseModel, Any] = None,
+        content: Optional[Union[AppResponseModel, Any]] = None,
         status_code: int = 200,
         success: bool = True,
     ) -> None:

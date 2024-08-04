@@ -1,4 +1,5 @@
 from datetime import UTC, datetime, timedelta
+from typing import Optional
 
 from fastapi import Depends
 
@@ -16,7 +17,7 @@ class JWTClaimGenerator(ClaimGenerator):
         token_type: TokenType,
         data: dict,
         expires_in: int | None = None,
-        jti: str = None,
+        jti: Optional[str] = None,
     ) -> dict:
         claims = {
             "jti": jti,

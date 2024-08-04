@@ -1,4 +1,5 @@
 import asyncio
+import typing
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -18,17 +19,17 @@ from service_platform.core.exception_handler import (
     request_validation_exception_handler,
     unicorn_exception_handler,
 )
-from service_platform.core.middleware.authentication import (
+from service_platform.core.middleware.authentication import (  # type: ignore
     AuthenticationMiddleware,
     include_public_paths,
     include_refresh_token_paths,
 )
+from service_platform.runtime.settings import settings
 from service_platform.service.postgres.lifetime import (
     init_postgres,
     shutdown_postgres,
 )
 from service_platform.service.redis.lifetime import init_redis, shutdown_redis
-from service_platform.settings import settings
 
 
 def get_app() -> FastAPI:
@@ -85,7 +86,7 @@ def get_app() -> FastAPI:
     app.include_router(router=api_router, prefix="/api")
 
     public_paths = {URL("/docs"), URL("/openapi.json")}
-    refresh_token_paths = set()
+    refresh_token_paths: set[typing.Any] = set()
 
     include_public_paths(api_router, public_paths)
     include_refresh_token_paths(api_router, refresh_token_paths)

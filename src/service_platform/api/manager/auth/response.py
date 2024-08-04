@@ -1,3 +1,5 @@
+from typing import Optional
+
 from service_platform.client.response.auth.auth_response import LoginResponse
 from service_platform.db.user.table import UserEntity
 
@@ -12,8 +14,8 @@ class AuthResponseConverter:
     def to_login_response(
         user: UserEntity,
         access_token: str,
-        refresh_token: str = None,
-        expires_in: int = None,
+        refresh_token: Optional[str] = None,
+        expires_in: Optional[int] = None,
     ) -> LoginResponse:
         return LoginResponse(
             roles=[user.roles],
