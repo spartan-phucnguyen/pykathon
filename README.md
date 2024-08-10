@@ -349,6 +349,7 @@ bash /Applications/Python*/Install\ Certificates.command
 ### COMMAND:
 ```bash
 chmod +x fastapi
+source venv/bin/activate
 
 Repository: ./fastapi create_repository --name=entity
 Controller: ./fastapi create_controller --name=entity

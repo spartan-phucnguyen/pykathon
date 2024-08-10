@@ -5,12 +5,18 @@ import inflect
 app = typer.Typer()
 p = inflect.engine()
 
-@app.command()
-def hello(txt: str):
-    print(f'HELLO {txt}')
+def read_template(template_path: str) -> str:
+    if not os.path.exists(template_path):
+        typer.echo(f"Template file not found: {template_path}")
+        raise FileNotFoundError(f"Template file not found: {template_path}")
+    with open(template_path, 'r') as file:
+        return file.read()
 
 @app.command(name='create_controller')
 def create_controller(name: str):
+    # Debug: Print current working directory
+    typer.echo(f"Current working directory: {os.getcwd()}")
+
     # Define directories and file paths
     controller_base_directory = f'src/service_platform/api/controller/{name}'
     manager_base_directory = f'src/service_platform/api/manager/{name}'
@@ -33,113 +39,27 @@ def create_controller(name: str):
         typer.echo(f'Manager {name} already exists.')
         raise typer.Exit()
 
+    # Read templates
+    controller_template = read_template('src/service_platform/command/templates/controller_template.py')
+    manager_template = read_template('src/service_platform/command/templates/manager_template.py')
+    response_template = read_template('src/service_platform/command/templates/response_template.py')
+    schema_template = read_template('src/service_platform/command/templates/schema_template.py')
+
     # Create the controller file with a basic template
     with open(controller_file_path, 'w') as f:
-        f.write(f'''import uuid
-from typing import Annotated, List
-
-from fastapi import APIRouter, Depends, Body
-
-router = APIRouter()
-
-@class_router(router)
-class {name.capitalize()}Router:
-    def __init__(self, {name}_manager: {name.capitalize()}Manager = Depends()):
-        self.manager = {name}_manager
-
-    @router.post("/{name}/create")
-    async def create_{name}(
-        self,
-        token_data: Annotated[TokenData, Depends(get_token_data)],
-        payload: Create{name.capitalize()}Request = Body(Create{name.capitalize()}Request),
-    ) -> {name.capitalize()}Response:
-        return await self.manager.create_{name}(
-            user_id=token_data.user_id,
-            payload=payload,
-        )
-
-    @router.post("/{name}/update")
-    async def update_{name}(
-        self,
-        {name}_id: uuid.UUID,
-        payload: Update{name.capitalize()}Request = Body(Update{name.capitalize()}Request),
-    ) -> MessageResponse:
-        return await self.manager.update_{name}(
-            {name}_id={name}_id, payload=payload
-        )
-
-    @router.post("/{name}/delete")
-    async def delete_{name}(
-        self,
-        {name}_id: uuid.UUID,
-    ) -> MessageResponse:
-        return await self.manager.delete_{name}({name}_id)
-''')
+        f.write(controller_template.format(name=name.capitalize(), name_lower=name.lower()))
 
     # Create the manager file with a basic template
     with open(manager_file_path, 'w') as f:
-        f.write(f'''from typing import List
-
-class {name.capitalize()}Manager:
-    async def create_{name}(self, user_id: str, payload: Create{name.capitalize()}Request) -> {name.capitalize()}Response:
-        # Implement the logic to create a {name}
-        pass
-
-    async def update_{name}(self, {name}_id: uuid.UUID, payload: Update{name.capitalize()}Request) -> MessageResponse:
-        # Implement the logic to update a {name}
-        pass
-
-    async def delete_{name}(self, {name}_id: uuid.UUID) -> MessageResponse:
-        # Implement the logic to delete a {name}
-        pass
-''')
+        f.write(manager_template.format(name=name.capitalize(), name_lower=name.lower()))
 
     # Create the response file with a basic template
     with open(response_file_path, 'w') as f:
-        f.write(f'''from __future__ import annotations
-
-from typing import List
-
-from service_platform.api.controller.{name}.schema import (
-    {name.capitalize()}Response,
-)
-
-from service_platform.db.{name}.table import {name.capitalize()}Entity
-
-class {name.capitalize()}ResponseConverter:
-    def to_{name}_response(
-        self,
-        {name}: {name.capitalize()}Entity,
-    ) -> {name.capitalize()}Response:
-        return {name.capitalize()}Response(
-            id={name}.id,
-            name={name}.name,
-        )
-
-    def to_{name}s_response(self, {name}s: List[{name.capitalize()}Entity]) -> List[{name.capitalize()}Response]:
-        return [self.to_{name}_response(fol) for fol in {name}s]
-''')
+        f.write(response_template.format(name=name.capitalize(), name_lower=name.lower()))
 
     # Create the schema file with a basic template
     with open(schema_file_path, 'w') as f:
-        f.write(f'''from __future__ import annotations
-
-import uuid
-from datetime import datetime
-from typing import List
-
-from service_platform.core.base_schema import CoreModel
-
-class Create{name.capitalize()}Request(CoreModel):
-    name: str
-
-class Update{name.capitalize()}Request(CoreModel):
-    name: str | None = None
-
-class {name.capitalize()}Response(CoreModel):
-    id: uuid.UUID
-    name: str
-''')
+        f.write(schema_template.format(name=name.capitalize()))
 
     # Create the __init__.py file for controller
     with open(init_controller_file_path, 'w') as f:
@@ -155,6 +75,9 @@ class {name.capitalize()}Response(CoreModel):
 
 @app.command(name='create_repository')
 def create_repository(name: str):
+    # Debug: Print current working directory
+    typer.echo(f"Current working directory: {os.getcwd()}")
+
     # Define directories and file paths
     entity_base_directory = f'src/service_platform/db/{name}'
     entity_file_path = os.path.join(entity_base_directory, 'table.py')
@@ -175,51 +98,17 @@ def create_repository(name: str):
     # Pluralize the entity name
     plural_name = p.plural(name)
 
+    # Read templates
+    entity_template = read_template('templates/entity_template.py')
+    repository_template = read_template('templates/repository_template.py')
+
     # Create the entity file with a basic template
     with open(entity_file_path, 'w') as f:
-        f.write(f'''from sqlalchemy import Column, String, DateTime
-from sqlalchemy.dialects.postgresql import UUID
-from service_platform.db.base_class import Base
-import uuid
-
-class {name.capitalize()}Entity(Base):
-    __tablename__ = '{plural_name}'
-
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
-    name = Column(String, index=True)
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=False)
-''')
+        f.write(entity_template.format(name=name.capitalize(), plural_name=plural_name))
 
     # Create the repository file with a basic template
     with open(repository_file_path, 'w') as f:
-        f.write(f'''from sqlalchemy.orm import Session
-from service_platform.db.{name}.table import {name.capitalize()}Entity
-
-class {name.capitalize()}Repository:
-    def __init__(self, db: Session):
-        self.db = db
-
-    def get_{name}(self, {name}_id: str) -> {name.capitalize()}Entity:
-        return self.db.query({name.capitalize()}Entity).filter({name.capitalize()}Entity.id == {name}_id).first()
-
-    def create_{name}(self, {name}: {name.capitalize()}Entity) -> {name.capitalize()}Entity:
-        self.db.add({name})
-        self.db.commit()
-        self.db.refresh({name})
-        return {name}
-
-    def update_{name}(self, {name}: {name.capitalize()}Entity) -> {name.capitalize()}Entity:
-        self.db.merge({name})
-        self.db.commit()
-        return {name}
-
-    def delete_{name}(self, {name}_id: str) -> None:
-        {name} = self.db.query({name.capitalize()}Entity).filter({name.capitalize()}Entity.id == {name}_id).first()
-        if {name}:
-            self.db.delete({name})
-            self.db.commit()
-''')
+        f.write(repository_template.format(name=name.capitalize(), name_lower=name.lower()))
 
     # Create the __init__.py file for entity and repository
     with open(init_entity_file_path, 'w') as f:
