@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from service_platform.exception.base_error import BaseError
+from service_platform.api.exception.base_error import BaseError
 
 
 class AuthError(BaseError):

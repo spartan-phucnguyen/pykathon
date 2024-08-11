@@ -57,12 +57,12 @@ jobs:
           echo "flyway.user=local" >> flyway.conf
           echo "flyway.password=local" >> flyway.conf
           echo "flyway.locations=filesystem:./" >> flyway.conf
-        working-directory: ${{ env.WORKING_DIRECTORY }}/sql
+        working-directory: ${{ env.WORKING_DIRECTORY }}/__sql__
 
       - name: Apply Flyway Migrations
         run: |
           flyway -configFiles=flyway.conf clean migrate
-        working-directory: ${{ env.WORKING_DIRECTORY }}/sql
+        working-directory: ${{ env.WORKING_DIRECTORY }}/__sql__
 
       - name: Generate JWT Keys
         run: |

@@ -5,9 +5,10 @@ import pytest
 from faker import Faker
 from fastapi import FastAPI
 from httpx import AsyncClient
+
+from service_platform.api.exception.auth_error import AuthError
 from service_platform.client.response.auth.auth_response import LoginResponse
-from service_platform.exception.auth_error import AuthError
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 fake = Faker()
 

@@ -1,7 +1,7 @@
-import nest_asyncio
+import nest_asyncio  # type: ignore
 import uvicorn
 
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 from service_platform.utils.logger import config_logging
 
 nest_asyncio.apply()

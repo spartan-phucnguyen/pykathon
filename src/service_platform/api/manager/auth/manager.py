@@ -4,6 +4,7 @@ from typing import Any
 from fastapi import Depends
 
 from service_platform.api.controller.schema import MessageResponse
+from service_platform.api.exception.auth_error import AuthError
 from service_platform.api.manager.auth.response import AuthResponseConverter
 from service_platform.client.model.auth_provider import AuthProvider
 from service_platform.client.request.auth.auth_request import (
@@ -16,7 +17,6 @@ from service_platform.core.security.custom_authentication import CustomAuthentic
 from service_platform.core.security.jwt_token_generator import JWTTokenGenerator
 from service_platform.db.refresh_token.repository import RefreshTokenRepository
 from service_platform.db.user.repository import UserRepository
-from service_platform.exception.auth_error import AuthError
 from service_platform.service.auth0.oauth import Auth0OAuthService
 from service_platform.service.google.oauth import GoogleOAuthService
 from service_platform.service.linkedin.oauth import LinkedinOAuthService

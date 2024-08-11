@@ -39,7 +39,7 @@ class AuthRouter:
         self,
         payload: ProviderLoginRequest,
         provider: AuthProvider,
-    ) -> LoginResponse:
+    ) -> LoginResponse | None:
         return await self.manager.provider_authorize_login(
             payload=payload,
             provider=provider,

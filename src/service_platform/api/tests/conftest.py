@@ -22,10 +22,10 @@ from service_platform.core.security.jwt_token_generator import JWTTokenGenerator
 from service_platform.db.refresh_token.repository import RefreshTokenRepository
 from service_platform.db.user.repository import UserRepository
 from service_platform.db.user.table import UserEntity
+from service_platform.runtime.settings import settings
 from service_platform.service.aws.s3 import S3
 from service_platform.service.aws.sqs import SQSConsumer, SQSJobProducer
 from service_platform.service.postgres.dependency import get_db_session
-from service_platform.settings import settings
 from service_platform.worker.example_worker.processor import ExampleWorkerProcessor
 from service_platform.worker.example_worker.repository.respository import (
     ExampleWorkerRepository,
@@ -35,7 +35,7 @@ fake = Faker()
 
 DEFAULT_USER_NAME = fake.user_name()
 DEFAULT_USER_EMAIL = fake.email()
-DEFAULT_USER_ID = fake.uuid4()
+DEFAULT_USER_ID = str(fake.uuid4(cast_to=str))
 DEFAULT_USER_PICTURE = fake.image_url()
 
 

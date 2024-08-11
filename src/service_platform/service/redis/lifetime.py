@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from redis.asyncio import ConnectionPool
 
-from service_platform.settings import logger, settings
+from service_platform.runtime.settings import logger, settings
 
 
 def init_redis(app: FastAPI) -> None:  # pragma: no cover

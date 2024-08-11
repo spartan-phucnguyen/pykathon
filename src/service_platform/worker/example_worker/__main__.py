@@ -2,7 +2,7 @@ import asyncio
 
 import nest_asyncio
 
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 from service_platform.worker.example_worker.consumer import ExampleWorkerConsumer
 
 nest_asyncio.apply()

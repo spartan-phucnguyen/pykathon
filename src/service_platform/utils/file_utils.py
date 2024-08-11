@@ -7,7 +7,7 @@ import yaml
 
 def get_yaml_config(environment: str) -> str:
     _directory = os.path.dirname(os.path.abspath(inspect.stack()[1].filename))
-    _default_yaml_config_path = os.path.join(_directory, "config.yaml")
+    _default_yaml_config_path = os.path.join(_directory, "config.example.yaml")
     _custom_yaml_config_path = os.path.join(_directory, f"config.{environment}.yaml")
     if os.path.exists(_custom_yaml_config_path):
         with open(_default_yaml_config_path, "r") as f:

@@ -8,7 +8,7 @@ from service_platform.core.security.custom_authentication import CustomAuthentic
 from service_platform.core.security.jwt_claim_generator import JWTClaimGenerator
 from service_platform.core.security.jwt_token import JWTToken
 from service_platform.core.security.token_generator import TokenGenerator
-from service_platform.settings import settings
+from service_platform.runtime.settings import settings
 
 
 class JWTTokenGenerator(TokenGenerator):

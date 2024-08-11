@@ -1,20 +1,31 @@
-# pylint: skip-file
 from datetime import datetime
 from enum import Enum
 from typing import Any, Generic, List, Optional, Type, TypeVar
 
 from fastapi import Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import func, null, select, update
+from sqlalchemy import (
+    ColumnElement,
+    LambdaElement,
+    Row,
+    RowMapping,
+    func,
+    null,
+    select,
+    update,
+)
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.elements import SQLCoreOperations
+from sqlalchemy.sql.roles import ExpressionElementRole, TypedColumnsClauseRole
 from starlette import status
 
 from service_platform.core.base_schema import CoreModel
 from service_platform.core.errors import KEY_EXISTS
+from service_platform.core.repository._typing import JoinArgs
 from service_platform.db.base_table import BaseTable
+from service_platform.runtime.settings import logger
 from service_platform.service.postgres.dependency import get_db_session
-from service_platform.settings import logger
 
 EntityType = TypeVar("EntityType", bound=BaseTable)
 SchemaType = TypeVar("SchemaType", bound=CoreModel)
@@ -85,11 +96,11 @@ class BaseRepository(Generic[EntityType]):
         self,
         obj_in: SchemaType | dict,
         obj_id: Any,
-        allow_nulls: List[str] = None,
+        allow_nulls: Optional[List[str]] = None,
     ):
         try:
             if allow_nulls is None:
-                allow_nulls = set()
+                allow_nulls = list()
 
             update_values = {}
             if isinstance(obj_in, dict):
@@ -119,18 +130,24 @@ class BaseRepository(Generic[EntityType]):
 
     def _build_filter_query(
         self,
-        conditions: list[bool],
-        joins: list[tuple],
-        order_by_columns: list[str],
-        order_by_desc: bool,
-        options: Any = None,
+        conditions: (
+            ColumnElement[bool]
+            | SQLCoreOperations[bool]
+            | ExpressionElementRole[bool]
+            | TypedColumnsClauseRole[bool]
+            | LambdaElement
+        ),
+        order_by_columns: Optional[list[str]] = None,
+        order_by_desc: bool = False,
+        joins: Optional[list[JoinArgs]] = None,
+        options: Optional[Any] = None,
     ):
         if not order_by_columns:
             order_by_columns = ["id"]
 
         query = (
             select(self.entity)
-            .filter(*conditions)
+            .filter(conditions)
             .where(self.entity.deleted_at == null())
         )
 
@@ -142,7 +159,12 @@ class BaseRepository(Generic[EntityType]):
 
         if joins:
             for join in joins:
-                query = query.join(*join)
+                query = query.join(
+                    target=join.target,
+                    onclause=join.on_clause,
+                    isouter=join.is_outer,
+                    full=join.full,
+                )
 
         if options is not None:
             query = query.options(options)
@@ -150,12 +172,18 @@ class BaseRepository(Generic[EntityType]):
 
     async def get_multi(
         self,
-        conditions: list[bool],
-        joins: list[tuple] = None,
-        order_by_columns: list[str] = None,
+        conditions: (
+            ColumnElement[bool]
+            | SQLCoreOperations[bool]
+            | ExpressionElementRole[bool]
+            | TypedColumnsClauseRole[bool]
+            | LambdaElement
+        ),
+        joins: Optional[list[JoinArgs]] = None,
+        order_by_columns: Optional[list[str]] = None,
         order_by_desc: bool = False,
-        skip: int = None,
-        limit: int = None,
+        skip: Optional[int] = None,
+        limit: Optional[int] = None,
         options: Any | None = None,
     ) -> list[EntityType]:
         query = self._build_filter_query(
@@ -175,9 +203,15 @@ class BaseRepository(Generic[EntityType]):
 
     async def get_first(
         self,
-        conditions: list[bool],
-        joins: list[tuple] = None,
-        order_by_columns: list[str] = None,
+        conditions: (
+            ColumnElement[bool]
+            | SQLCoreOperations[bool]
+            | ExpressionElementRole[bool]
+            | TypedColumnsClauseRole[bool]
+            | LambdaElement
+        ),
+        joins: Optional[list[JoinArgs]] = None,
+        order_by_columns: Optional[list[str]] = None,
         order_by_desc: bool = False,
         options: Any | None = None,
         raise_error_if_not_found: bool = False,
@@ -193,7 +227,7 @@ class BaseRepository(Generic[EntityType]):
         data = db_models.scalars().first()
         if data is None and raise_error_if_not_found:
             raise self.raise_not_found(self.entity)
-        return data
+        return self.row_to_entity(data)
 
     async def bulk_create(self, obj_in: List[SchemaType]) -> List[EntityType]:
         try:
@@ -214,3 +248,7 @@ class BaseRepository(Generic[EntityType]):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Object {obj_id} not found in {name_table} table!",
         )
+
+    def row_to_entity(self, row: Row[Any] | RowMapping) -> EntityType:
+        entity_dict = dict(row)
+        return self.entity(**entity_dict)

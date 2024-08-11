@@ -1,14 +1,14 @@
 import logging
 import os
 
-from pydantic_settings import SettingsConfigDict
-from pydantic_settings_yaml import YamlBaseSettings
-from pydantic_settings_yaml.base_settings import YamlConfigSettingsSource
+from pydantic_settings import SettingsConfigDict, YamlConfigSettingsSource
+from pydantic_settings_yaml import YamlBaseSettings  # type: ignore
 from yarl import URL
 
-from service_platform.settings import (
+from service_platform.runtime.settings import (
     Auth0Config,
     AWSConfig,
+    DatadogSettings,
     DBConfig,
     GoogleConfig,
     JWTConfig,
@@ -28,7 +28,13 @@ class Settings(YamlBaseSettings):
     with yaml config.
     """
 
-    _environment = os.environ.get("ENVIRONMENT")
+    _environment = str(
+        (
+            os.environ.get("ENVIRONMENT")
+            if os.environ.get("ENVIRONMENT") is not None
+            else "local"
+        ),
+    )
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
@@ -45,6 +51,7 @@ class Settings(YamlBaseSettings):
     auth0: Auth0Config
     aws: AWSConfig
     jwt: JWTConfig
+    datadog: DatadogSettings
 
     @property
     def environment(self):

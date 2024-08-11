@@ -1,5 +1,5 @@
+from service_platform.runtime.settings import logger
 from service_platform.service.postgres.lifetime import init_postgres_worker
-from service_platform.settings import logger
 
 
 class ExampleWorkerRepository:
