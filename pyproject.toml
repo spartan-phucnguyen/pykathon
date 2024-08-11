@@ -68,6 +68,7 @@ quote-style = "double"
 
 [tool.mypy]
 exclude = [
-    '/src/service_platform/service/*',
-    '/src/service_platform/client/{zoom,linkedin,google,auth0}/*'
+    "./src/service_platform/service/*",
+    "./src/service_platform/client/{zoom,linkedin,google,auth0}/*",
+    '_template\.py$' # ignore the template file
 ]

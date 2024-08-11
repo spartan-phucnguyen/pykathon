@@ -35,7 +35,7 @@ fake = Faker()
 
 DEFAULT_USER_NAME = fake.user_name()
 DEFAULT_USER_EMAIL = fake.email()
-DEFAULT_USER_ID = fake.uuid4()
+DEFAULT_USER_ID = str(fake.uuid4(cast_to=str))
 DEFAULT_USER_PICTURE = fake.image_url()
 
 
