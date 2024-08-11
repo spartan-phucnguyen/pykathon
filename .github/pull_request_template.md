@@ -1,10 +1,25 @@
 ## Summary
 
-Add some bells and whistles for PR template.
+<!--- Add some bells and whistles for PR template. --->
+
+### Why
+
+<!--- Clearly define the issue or problem that your changes address.
+Describe what is currently not working as expected or what feature is missing. --->
+
+### What
+
+<!--- Provide a high-level overview of what has been modified, added, or removed in the codebase.
+This could include new features, bug fixes, refactoring efforts, or performance optimizations. --->
+
+### Solution
+
+<!--- Describe the architectural or design decisions you made while implementing the changes.
+Explain the thought process behind your approach and how it aligns with best practices or existing patterns in the codebase. --->
 
 ## Types of Changes
 
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: --->
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply --->
 
 - [ ] ❌ Breaking change (fix or feature that would cause existing functionality to not
   work as expected)
@@ -14,31 +29,17 @@ Add some bells and whistles for PR template.
   issue)
 - [ ] 🛠 Refactor (non-breaking change which does not change existing behavior or add new
   functionality)
-- [ ] 📗Library update (non-breaking change that will update one or more libraries to
+- [ ] 📗 Library update (non-breaking change that will update one or more libraries to
   newer versions)
-- [x] 📝 Documentation (non-breaking change that doesn't change code behavior, can skip
+- [ ] 📝 Documentation (non-breaking change that doesn't change code behavior, can skip
   testing)
+- [ ] ✅ Test (non-breaking change related to testing)
+- [ ] 🔒 Security awareness (changes that effect permission scope, security scenarios)
 
-## Security awareness:
+## Test Plan
 
-<!--- Something about the permission scope, security scenarios need to be aware --->
+<!--- Please input steps on how to test this PR, including evidence in the form of captured images or videos. If this is not necessary, provide the reason why. --->
 
-## Breaking changes:
+## Related Issues
 
-<!--- List out all breaking changes that this PR may introduce, briefly --->
-
-## Test Plan:
-
-skip_test
-
-## Checklist:
-
-- [x] I have performed a self-review of my own code
-- [x] I have tested that the feature or bug fix works as expected
-- [x] I have included helpful comments, particularly in hard-to-understand areas
-- [x] I have added tests that prove my changes are functioning
-- [ ] New and existing unit tests pass locally with my changes
-
-## Notion Issues:
-
-<!--- Link to your Notion ticket --->
+<!---Add a reference section for management tickets, and relevant conversations.--->
