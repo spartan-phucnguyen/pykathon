@@ -25,7 +25,7 @@ UserTable = Table(
 class UserEntity(BaseTable):
     __tablename__ = "users"
 
-    email: Mapped[str]
+    email: v[str]
     name: Mapped[str]
     picture_url: Mapped[str]
     logged_in_at: Mapped[datetime]

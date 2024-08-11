@@ -11,35 +11,66 @@ Python 3.12 recommended.
 ├── poetry.lock
 ├── pyproject.toml
 └── src
-    └── service_1
-        ├── Dockerfile
-        ├── __init__.py
-        ├── __main__.py
-        ├── config.example.yaml
-        ├── settings.py
+    └── service_platform
         ├── api
-        │   ├── controller
-        │   │   └── controller_1
-        │   └── manager
-        │       └── manager_1
+        │    ├── controller
+        │    │   ├── auth
+        │    │   ├── health
+        │    │   └── user
+        │    ├── exception
+        │    ├── manager
+        │    │   ├── auth
+        │    │   └── user
+        │    └── tests
+        │        └── api
         ├── client
-        │   └── client_1
+        │    ├── auth0
+        │    ├── google
+        │    ├── health
+        │    ├── linkedin
+        │    ├── model
+        │    ├── request
+        │    │   ├── auth
+        │    │   └── user
+        │    ├── response
+        │    │   ├── auth
+        │    │   └── user
+        │    └── zoom
+        ├── command
+        │    └── templates
         ├── core
-        │   ├── errors
-        │   ├── repository
-        │   └── response
+        │    ├── errors
+        │    ├── middleware
+        │    ├── repository
+        │    ├── response
+        │    └── security
         ├── db
-        │   └── db_1
-        ├── helper
+        │    ├── __sql__
+        │    ├── refresh_token
+        │    └── user
         ├── k8s
-        │   ├── dev
-        │   └── prod
+        │    └── dev
+        ├── runtime
+        │    └── settings
         ├── service
-        │   └── service_1
-        ├── __sql__
-        ├── tests
+        │    ├── auth0
+        │    │   └── oauth
+        │    ├── aws
+        │    │   ├── s3
+        │    │   └── sqs
+        │    ├── google
+        │    │   └── oauth
+        │    ├── linkedin
+        │    │   └── oauth
+        │    ├── postgres
+        │    ├── redis
+        │    └── zoom
+        │        └── oauth
+        ├── settings
+        ├── utils
+        │    └── logging
         └── worker
-            └── worker_1
+            └── example_worker
                 ├── consumer
                 ├── processor
                 └── repository
@@ -365,9 +396,9 @@ bash /Applications/Python*/Install\ Certificates.command
 ### COMMAND:
 
 ```bash
-chmod +x fastapi
-source venv/bin/activate
+chmod +x ./src/tools/fastapi
+source venv/bin/activate # activate shell
 
-Repository: ./fastapi create_repository --name=entity
-Controller: ./fastapi create_controller --name=entity
+Repository: ./src/tools/fastapi create_repository [entity name]
+Controller: ./src/tools/fastapi create_controller [entity name]
 ```
