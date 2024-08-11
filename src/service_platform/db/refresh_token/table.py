@@ -19,4 +19,4 @@ RefreshTokenTable = Table(
 class RefreshTokenEntity(BaseTable):
     __tablename__ = table_name
 
-    user_id: Mapped[UUID]
+    user_id: Mapped[str]

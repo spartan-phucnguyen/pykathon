@@ -8,6 +8,7 @@ from yarl import URL
 from service_platform.runtime.settings import (
     Auth0Config,
     AWSConfig,
+    DatadogSettings,
     DBConfig,
     GoogleConfig,
     JWTConfig,
@@ -50,6 +51,7 @@ class Settings(YamlBaseSettings):
     auth0: Auth0Config
     aws: AWSConfig
     jwt: JWTConfig
+    datadog: DatadogSettings
 
     @property
     def environment(self):
