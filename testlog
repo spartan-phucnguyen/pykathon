@@ -1,7 +1,0 @@
-{"level": "INFO", "time": "2024-08-11 15:28:44,087", "message": "Started server process [53295]", "name": "uvicorn.error", "filename": "server.py", "lineno": 82, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,087", "message": "Waiting for application startup.", "name": "uvicorn.error", "filename": "on.py", "lineno": 48, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,190", "message": "postgres initialized", "name": "service_platform.runtime.settings.settings", "filename": "lifetime.py", "lineno": 31, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,190", "message": "registered startup event", "name": "service_platform.runtime.settings.settings", "filename": "lifetime.py", "lineno": 12, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,250", "message": "registered worker", "name": "service_platform.runtime.settings.settings", "filename": "lifetime.py", "lineno": 32, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,251", "message": "Application startup complete.", "name": "uvicorn.error", "filename": "on.py", "lineno": 62, "dd.trace_id": "0", "dd.span_id": "0"}
-{"level": "INFO", "time": "2024-08-11 15:28:44,251", "message": "Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)", "name": "uvicorn.error", "filename": "server.py", "lineno": 214, "dd.trace_id": "0", "dd.span_id": "0"}

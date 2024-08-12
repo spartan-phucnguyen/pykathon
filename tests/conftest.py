@@ -4,13 +4,6 @@ import pytest
 from faker import Faker
 from fastapi import FastAPI
 from httpx import AsyncClient
-from sqlalchemy.ext.asyncio import (
-    AsyncEngine,
-    AsyncSession,
-    async_sessionmaker,
-    create_async_engine,
-)
-
 from service_platform.api.application import get_app
 from service_platform.api.manager.user.manager import UserManager
 from service_platform.client.model.auth_provider import AuthProvider
@@ -29,6 +22,12 @@ from service_platform.service.postgres.dependency import get_db_session
 from service_platform.worker.example_worker.processor import ExampleWorkerProcessor
 from service_platform.worker.example_worker.repository.respository import (
     ExampleWorkerRepository,
+)
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
 )
 
 fake = Faker()
@@ -71,7 +70,7 @@ async def dbsession(
     Get session to database.
 
     Fixture that returns a SQLAlchemy session with a SAVEPOINT, and the rollback to it
-    after the test completes.
+    after the tests completes.
 
     :param _engine: current engine.
     :yields: async session.
@@ -187,7 +186,7 @@ async def access_token(
     token_generator: JWTTokenGenerator,
 ) -> str:
     """
-    Fixture to create an access token for the test user.
+    Fixture to create an access token for the tests user.
     """
     authentication = CustomAuthentication(
         user_id=str(test_user.id),
@@ -216,7 +215,7 @@ async def refresh_token(
     refresh_token_repository: RefreshTokenRepository,
 ) -> str:
     """
-    Fixture to create a refresh token for the test user.
+    Fixture to create a refresh token for the tests user.
     """
 
     refresh_token = await refresh_token_repository.create(
@@ -254,7 +253,7 @@ async def s3() -> S3:
 @pytest.fixture
 async def sqs_example_worker_producer() -> SQSJobProducer:
     return SQSJobProducer(
-        queue_url=settings.aws.sqs.workers.example_worker.url + "-test",
+        queue_url=settings.aws.sqs.workers.example_worker.url + "-tests",
     )
 
 
@@ -265,6 +264,6 @@ async def sqs_consumer(
     example_worker_processor = ExampleWorkerProcessor()
     example_worker_processor.repository = example_worker_repository
     return SQSConsumer(
-        queue_url=settings.aws.sqs.workers.example_worker.url + "-test",
+        queue_url=settings.aws.sqs.workers.example_worker.url + "-tests",
         processors=[example_worker_processor],
     )
