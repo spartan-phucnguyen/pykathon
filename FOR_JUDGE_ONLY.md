@@ -3,6 +3,7 @@
 -----
 
 ## What we did in advances
+
 ### Refactor codebase
 
 #### Why?
@@ -40,6 +41,23 @@
 - `mypy` also provide us a CLI to check manually, we take advantages of this to leverage
   the `pre-commit` hooks of GitHub.
 
+### Command for basic CRUD:
+
+#### Why?
+
+- The FastAPI template is quite complex for engineers who haven't worked with FastAPI (
+  Python) before and can be tedious for engineers already familiar with it.
+
+#### Solution
+
+- Quickly generate basic CRUD: `controller`, `repository` via Command (Inspired by
+  Laravel)
+    + Repository: ./fastapi create_repository [name] (ex: ./fastapi
+      create_repository product)
+    + Controller: ./fastapi create_controller [name]
+
+- Use inflect to handle Singular & Plural case
+
 ## What are some challenges we have faced when we develop this template?
 
 1. Huge amount of typing error: after installed `mypy` for type check, we almost fainted
@@ -48,16 +66,3 @@
    decided to skip for some files. It's not a great choice but we need to do it to get
    the sh*t done.
 2.
-
-### Command for basic CRUD:
-
-#### Why?
-- The FastAPI template is quite complex for engineers who haven't worked with FastAPI (Python) before and can be tedious for engineers already familiar with it.
-#### Solution
-- Quickly generate basic CRUD: `controller`, `repository` via Command (Inspired by Laravel)
-    + Repository: ./fastapi create_repository --name=entity (ex: ./fastapi create_repository product)
-    + Controller: ./fastapi create_controller --name=entity
-
-- Use inflect to handle Singular & Plural case
-
-
